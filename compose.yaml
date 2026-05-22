@@ -1,0 +1,6 @@
+name: codebadgerdbpopulator
+services:
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
