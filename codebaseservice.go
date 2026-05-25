@@ -21,16 +21,17 @@ const (
 		"FROM codebases"
 )
 
-func InsertCodebases(db *sql.DB, codebases []Codebase) {
+func InsertCodebases(db *sql.DB, codebases []Codebase, portsRange []int) {
 	stmt, err := db.Prepare("INSERT INTO codebases(" +
 		"hash, " +
 		"source_path, " +
 		"language, " +
 		"cpg_path, " +
+		"joern_port, " +
 		"metadata, " +
 		"created_at, " +
 		"last_accessed" +
-		") VALUES (?, ?, ?, ?, ?, ?, ?)")
+		") VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		panic("Can't prepare a statement.")
 	}
@@ -38,7 +39,7 @@ func InsertCodebases(db *sql.DB, codebases []Codebase) {
 		_ = st.Close()
 	}(stmt)
 
-	for _, codebase := range codebases {
+	for i, codebase := range codebases {
 		jsonMetadataBytes, err := json.Marshal(codebase.metadata)
 		if err != nil {
 			log.Fatalf("Couldn't marshal: %#v\n", codebase.metadata)
@@ -51,6 +52,7 @@ func InsertCodebases(db *sql.DB, codebases []Codebase) {
 			codebase.sourcePath,
 			codebase.language,
 			codebase.cpgPath,
+			portsRange[i%len(portsRange)],
 			jsonMetadata,
 			timestampFormatted,
 			timestampFormatted,

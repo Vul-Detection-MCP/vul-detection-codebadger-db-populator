@@ -4,10 +4,19 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	_ "modernc.org/sqlite"
 )
+
+func CreateRangeInclusive(start int, end int) []int {
+	values := make([]int, end-start+1)
+	for i := range values {
+		values[i] = start + i
+	}
+	return values
+}
 
 func main() {
 	InitConfig()
@@ -27,7 +36,11 @@ func main() {
 		_ = file.Close()
 	}(f)
 
+	minPort, _ := strconv.Atoi(config.JoernMinPort)
+	maxPort, _ := strconv.Atoi(config.JoernMaxPort)
+	portsRange := CreateRangeInclusive(minPort, maxPort)
+
 	repositories := ParseCsvToRepositories(f)
 	codebases := CreateCodebases(GetConfig(), repositories, time.Now())
-	InsertCodebases(db, codebases)
+	InsertCodebases(db, codebases, portsRange)
 }

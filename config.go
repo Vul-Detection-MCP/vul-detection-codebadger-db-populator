@@ -9,6 +9,8 @@ type Config struct {
 	CodebadgerCpgBasePath              string
 	JoernCodebasesAbsoluteBasePath     string
 	JoernCpgAbsoluteBasePath           string
+	JoernMinPort                       string
+	JoernMaxPort                       string
 }
 
 var config Config
@@ -33,5 +35,7 @@ func InitConfig() {
 		CodebadgerCpgBasePath:              envOrPanic("DB_RELATED_CODEBADGER_CPG_ABSOLUTE_BASE_PATH"),
 		JoernCodebasesAbsoluteBasePath:     envOrPanic("DB_RELATED_JOERN_CODEBASES_ABSOLUTE_BASE_PATH"),
 		JoernCpgAbsoluteBasePath:           envOrPanic("DB_RELATED_JOERN_CPG_ABSOLUTE_BASE_PATH"),
+		JoernMinPort:                       envOrPanic("DB_RELATED_JOERN_MIN_PORT"),
+		JoernMaxPort:                       envOrPanic("DB_RELATED_JOERN_MAX_PORT"),
 	}
 }
