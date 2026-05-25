@@ -10,7 +10,7 @@ CREATE TABLE codebases (
 	source_path TEXT NOT NULL,
 	language TEXT NOT NULL,
 	cpg_path TEXT NOT NULL,
-	joern_port INTEGER NOT NULL,
+	joern_port INTEGER,
 	metadata TEXT NOT NULL,
 	created_at TEXT NOT NULL,
 	last_accessed TEXT NOT NULL
